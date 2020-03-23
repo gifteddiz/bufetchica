@@ -5,7 +5,9 @@ import helpers from "~/assets/js/helpers";
 export const state = () => ({
   menu: [],
   diets: [],
-  allergen: []
+  allergen: [],
+  daytime: [],
+  type: []
 });
 
 export const mutations = {
@@ -13,6 +15,8 @@ export const mutations = {
     state.diets = menu.diets;
     state.menu = menu.menu;
     state.allergen = menu.allergen;
+    state.daytime = menu.daytime;
+    state.type = menu.type;
   },
   EDIT_RECIPE(state, payload) {
     // Заменяет рецепт с указанным payload.id на объект переданный в payload.recipe
@@ -233,5 +237,13 @@ export const getters = {
   allergenList(state) {
     if (!state.allergen.length) return [];
     return state.allergen;
+  },
+  dayTimeList(state) {
+    if (!state.daytime.length) return [];
+    return state.daytime;
+  },
+  dishTypeList(state) {
+    if (!state.type.length) return [];
+    return state.type;
   }
 };

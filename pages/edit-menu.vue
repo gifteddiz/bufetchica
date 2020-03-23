@@ -132,16 +132,17 @@
         <div class="edit-menu__input-name">Прием пищи</div>
         <div class="edit-menu__select">
           <select v-model="parameters.daytime">
-            <option>Завтрак</option>
-            <option>Обед</option>
+            <option
+              :value="daytime.id"
+              v-for="daytime in dayTimeList"
+              :key="daytime.id"
+            >{{daytime.name}}</option>
           </select>
         </div>
         <div class="edit-menu__input-name">Тип блюда</div>
         <div class="edit-menu__select">
           <select v-model="parameters.type">
-            <option>Закуски острые</option>
-            <option>Закуски</option>
-            <option>Горячее</option>
+            <option v-for="dishType in dishTypeList" :key="dishType.id">{{dishType.name}}</option>
           </select>
         </div>
         <div class="edit-menu__saving" v-if="isSaving">
@@ -169,17 +170,7 @@ export default {
     return {
       allergen: [],
       isSaving: false,
-      errors: [],
-      dropzoneOptions: {
-        url: "https://httpbin.org/post",
-        thumbnailWidth: 600,
-        maxFilesize: 2,
-        maxFiles: 1,
-        addRemoveLinks: true,
-        headers: { "My-Awesome-Header": "header value" },
-        dictRemoveFile: "Удалить файл",
-        dictCancelUpload: "Отменить загрузку"
-      }
+      errors: []
     };
   },
   computed: {
@@ -187,7 +178,10 @@ export default {
       var data = {};
       if (this.$route.query.id) {
         data = this.$store.getters["menu/getRecipe"](this.$route.query.id);
-        if (data) this.setAllergenInitially(data.allergen);
+        if (data) {
+          this.setAllergenInitially(data.allergen);
+          this.setImageInitially(data.image);
+        }
       } else {
         var diet = this.$route.query.diet;
         var currentDay = this.$route.query.day;
@@ -219,7 +213,23 @@ export default {
       }
       return { ...data };
     },
-    ...mapGetters({ allergenOptions: "menu/allergenList" })
+    ...mapGetters({
+      allergenOptions: "menu/allergenList",
+      dayTimeList: "menu/dayTimeList",
+      dishTypeList: "menu/dishTypeList"
+    }),
+    dropzoneOptions() {
+      return {
+        url: "http://emcq.zapusq.ru/rest/images/",
+        thumbnailWidth: 600,
+        maxFilesize: 2,
+        maxFiles: 1,
+        addRemoveLinks: true,
+        headers: { "My-Awesome-Header": "header value" },
+        dictRemoveFile: "Удалить файл",
+        dictCancelUpload: "Отменить загрузку"
+      };
+    }
   },
   components: {
     vueDropzone: vue2Dropzone,
@@ -265,6 +275,10 @@ export default {
         result.push(allergenObj.id);
       });
       this.parameters.allergen = result;
+    },
+    setImageInitially(url) {
+      var file = { size: 123, name: "", type: "image/jpg" };
+      this.$refs.myVueDropzone.manuallyAddFile(file, url);
     }
   }
 };

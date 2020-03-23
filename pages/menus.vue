@@ -82,7 +82,7 @@
       <div class="menu-day-time-wrapper">
         <div v-for="(menudaytime, index) in menu" :key="index">
           <div class="menu-title">
-            <h2 class="menu-title__h2">{{ menudaytime.name }}</h2>
+            <h2 class="menu-title__h2">{{ dayTimeIdToName( menudaytime.name ) }}</h2>
             <div class="menu-title__search" v-if="index === 0">
               <input type="search" placeholder="Поиск по блюдам" v-model="filter.name" />
             </div>
@@ -158,7 +158,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ dietsList: "menu/dietsList" }),
+    ...mapGetters({
+      dietsList: "menu/dietsList",
+      dayTimeList: "menu/dayTimeList"
+    }),
     dayDishesID() {
       var result = [];
       if (this.menu.length) {
@@ -187,6 +190,18 @@ export default {
     },
     togglePickDish: function() {
       this.showPickDish = !this.showPickDish;
+    },
+    dayTimeIdToName(id) {
+      // Возвращает название времени дня
+      var result = "";
+      var dayTimeObj = {};
+
+      dayTimeObj = this.dayTimeList.find(el => {
+        return el.id === id;
+      });
+      if (typeof dayTimeObj !== "undefined") result = dayTimeObj.name;
+
+      return result;
     }
   }
 };
