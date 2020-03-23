@@ -168,6 +168,7 @@ export default {
   mixins: [fetchData],
   data: function() {
     return {
+      dropZoneMounted: false,
       allergen: [],
       isSaving: false,
       errors: []
@@ -277,9 +278,20 @@ export default {
       this.parameters.allergen = result;
     },
     setImageInitially(url) {
-      var file = { size: 123, name: "", type: "image/jpg" };
-      this.$refs.myVueDropzone.manuallyAddFile(file, url);
+      var setValue = () => {
+        if (this.dropZoneMounted) {
+          var file = { size: 123, name: "", type: "image/jpg" };
+          this.$refs.myVueDropzone.removeAllFiles();
+          this.$refs.myVueDropzone.manuallyAddFile(file, url);
+        } else {
+          setTimeout(setValue, 1000);
+        }
+      };
+      setValue();
     }
+  },
+  mounted: function() {
+    this.dropZoneMounted = true;
   }
 };
 </script>
