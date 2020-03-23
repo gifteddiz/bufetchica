@@ -1,0 +1,25 @@
+.pick-dish {
+  padding: rem(25px) rem(30px);
+}
+.pick-dish__item {
+  display: flex;
+  width: rem(400px);
+  padding: rem(5px) 0;
+  align-items: center;
+  cursor: pointer;
+  border-bottom: rem(1px) solid rgba(0, 0, 0, 0.1);
+  transition: all $time;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+.pick-dish__img {
+  width: rem(100px);
+  height: rem(60px);
+  background-size: cover;
+  background-position: center center;
+  flex: 0 0 auto;
+}
+.pick-dish__title {
+  padding-left: rem(10px);
+}

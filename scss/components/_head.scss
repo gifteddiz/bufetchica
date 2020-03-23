@@ -1,0 +1,144 @@
+.head {
+  box-shadow: rem(0px) rem(4px) rem(30px) rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+}
+.head__wrapper {
+  position: relative;
+  max-width: rem(1720px);
+  margin: 0 auto;
+  @include media-breakpoint-down(lg) {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 15px;
+  }
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
+  }
+}
+.head__logo {
+  width: rem(175px);
+  display: flex;
+  align-items: center;
+  height: rem(110px);
+  position: absolute;
+  left: rem(15px);
+  top: 0;
+  padding-bottom: rem(6px);
+  @include media-breakpoint-down(lg) {
+    position: static;
+  }
+  @include media-breakpoint-only(md) {
+    width: 90px;
+  }
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+.head__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.head__nav-item {
+  display: flex;
+  align-items: center;
+  height: rem(110px);
+  padding: 0 rem(30px);
+  position: relative;
+  @include media-breakpoint-down(sm) {
+    padding: 0 12px;
+    height: 60px;
+  }
+  &.--disabled {
+    opacity: 0.44;
+    pointer-events: none;
+  }
+  &.nuxt-link-active {
+    &:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: rem(25px);
+      background-color: #e5e5e5;
+      opacity: 0.6;
+      @include media-breakpoint-down(sm) {
+        height: 10px;
+      }
+    }
+  }
+}
+.head__nav-ico {
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+}
+.head__nav-text {
+  position: relative;
+  font-size: rem(20px);
+  color: #000;
+  margin-left: rem(10px);
+}
+.head__nav-text-sup {
+  position: absolute;
+  left: 100%;
+  top: rem(-9px);
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: rem(10px);
+}
+.head__profile {
+  position: absolute;
+  right: rem(15px);
+  top: 0;
+  height: rem(110px);
+  display: flex;
+  align-items: center;
+  @include media-breakpoint-down(lg) {
+    position: static;
+  }
+  @include media-breakpoint-down(sm) {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    height: 70px;
+  }
+}
+.head__profile-ico {
+  width: rem(37px);
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+.head__profile-name-n-exit {
+  display: block;
+  margin-left: rem(20px);
+}
+.head__profile-name {
+  display: block;
+  font-size: rem(20px);
+  font-weight: bold;
+  color: #000;
+  line-height: 1.4;
+  @include media-breakpoint-only(md) {
+    font-size: 12px;
+  }
+}
+.head__profile-exit {
+  display: block;
+  font-size: rem(20px);
+  color: #000;
+  line-height: 1.4;
+  @include media-breakpoint-only(md) {
+    font-size: 12px;
+  }
+  &:hover {
+    color: #c0af93;
+  }
+}

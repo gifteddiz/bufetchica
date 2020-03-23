@@ -1,0 +1,16 @@
+.back {
+  margin-top: rem(30px);
+  display: flex;
+  color: #000;
+  align-items: center;
+  svg {
+    width: rem(12px);
+    display: block;
+    height: auto;
+    margin-right: rem(16px);
+  }
+  span {
+    display: block;
+    font-size: rem(20px);
+  }
+}

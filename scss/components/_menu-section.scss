@@ -1,0 +1,38 @@
+.menu-section {
+  margin-left: rem(64px);
+  padding-left: rem(30px);
+  border-left: rem(4px) solid #dbd1c0;
+  position: relative;
+  margin-bottom: rem(60px);
+  @include media-breakpoint-down(sm) {
+    border-left: 0;
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
+.menu-section__add {
+  position: absolute;
+  right: 100%;
+  top: 0;
+  width: rem(46px);
+  height: rem(46px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include media-breakpoint-down(sm) {
+    right: 0;
+  }
+  svg {
+    width: rem(16px);
+    height: auto;
+    display: block;
+  }
+}
+.menu-section__title {
+  font-size: rem(24px);
+  font-weight: normal;
+  color: #000;
+  margin: 0;
+  margin-bottom: rem(16px);
+  padding-top: rem(3px);
+}

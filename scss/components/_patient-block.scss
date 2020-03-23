@@ -1,0 +1,137 @@
+.patient-block {
+  margin-bottom: rem(20px);
+}
+.patient-block__inner {
+  position: relative;
+  padding-left: rem(40px);
+  display: flex;
+  justify-content: space-between;
+  height: rem(100px);
+  align-items: stretch;
+  background-color: #fff;
+  padding-right: rem(20px);
+  box-shadow: rem(0px) rem(0px) rem(10px) rgba(0, 0, 0, 0.15);
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
+    height: auto;
+  }
+}
+.patient-block__new {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #c0af93;
+  color: #fff;
+  font-size: rem(14px);
+  font-weight: bold;
+  text-align: center;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+}
+.patient-block__main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  @include media-breakpoint-down(sm) {
+    padding: 15px 0;
+  }
+}
+.patient-block__name {
+  font-size: rem(18px);
+  font-weight: 600;
+  color: #000;
+  margin-bottom: rem(8px);
+}
+.patient-block__data {
+  font-size: rem(15px);
+  display: flex;
+  align-items: center;
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+}
+.patient-block__status {
+  width: rem(18px);
+  height: rem(18px);
+  flex: 0 0 auto;
+  border-radius: rem(18px);
+  background-color: #77c183;
+  margin-right: rem(20px);
+  @include media-breakpoint-down(sm) {
+    position: absolute;
+    top: 10px;
+    right: -5px;
+    width: 10px;
+    height: 10px;
+  }
+}
+.patient-block__data-item {
+  font-weight: 600;
+  opacity: 0.7;
+  @include media-breakpoint-down(sm) {
+    width: 100%;
+  }
+  & + .patient-block__data-item {
+    margin-left: rem(20px);
+    padding-left: rem(20px);
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+    @include media-breakpoint-down(sm) {
+      margin-left: 0;
+      padding-left: 0;
+      border-top: 1px solid rgba(0, 0, 0, 0.2);
+      border-left: none;
+    }
+  }
+}
+.patient-block__controls {
+  display: flex;
+  align-items: center;
+  @include media-breakpoint-down(sm) {
+    padding-bottom: 16px;
+    margin-top: 15px;
+    width: 100%;
+    justify-content: center;
+  }
+}
+.patient-block__controls-item {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  padding: 0 rem(20px);
+  height: rem(60px);
+  @include media-breakpoint-down(sm) {
+    height: auto;
+  }
+  & + .patient-block__controls-item {
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+.patient-block__controls-ico {
+  height: rem(30px);
+  width: rem(30px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: rem(8px);
+}
+.patient-block__controls-text {
+  font-size: rem(14px);
+  font-weight: 600;
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+  &.--green {
+    color: #629771;
+  }
+  &.--blue {
+    color: #617aa0;
+  }
+  &.--red {
+    color: #b06666;
+  }
+}

@@ -1,0 +1,38 @@
+.addresses {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin-bottom: rem(34px);
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 0;
+  }
+}
+.addresses__item {
+  font-size: rem(16px);
+  color: #000;
+  opacity: 0.5;
+  padding: rem(16px) 0;
+  border-bottom: rem(8px) solid transparent;
+  margin-bottom: rem(-4px);
+  @include media-breakpoint-down(sm) {
+    margin-bottom: 0;
+    margin-left: -2px;
+    border-left: 4px solid transparent;
+    border-bottom: 0;
+    padding: 5px 0;
+    padding-left: 20px;
+  }
+  &:hover {
+    color: #c0af93;
+    opacity: 1;
+  }
+  &.--active {
+    opacity: 1;
+    border-bottom-color: #c0af93;
+    @include media-breakpoint-down(sm) {
+      border-left-color: #c0af93;
+    }
+  }
+}

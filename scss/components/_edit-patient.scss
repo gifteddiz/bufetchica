@@ -1,0 +1,78 @@
+.edit-patient {
+  margin: 0 auto;
+  background: #ffffff;
+  box-shadow: rem(0px) rem(0px) rem(10px) rgba(0, 0, 0, 0.15);
+  width: rem(770px);
+  padding: rem(50px) rem(100px);
+  margin-top: rem(30px);
+  margin-bottom: rem(50px);
+  @include media-breakpoint-down(sm) {
+    width: 100%;
+    padding: 30px 15px;
+  }
+}
+.edit-patient__h2 {
+  font-size: rem(30px);
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: rem(50px);
+  color: #000;
+}
+.edit-patient__input {
+  width: 100%;
+  margin-bottom: rem(20px);
+  input {
+    height: rem(50px);
+    width: 100%;
+    border: rem(2px) solid #c0af93;
+    padding: 0 rem(15px);
+    color: #000;
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+.edit-patient__input-name {
+  margin-bottom: rem(10px);
+}
+.edit-patient__select {
+  width: 100%;
+  margin-bottom: rem(20px);
+  select {
+    height: rem(50px);
+    width: 100%;
+    border: rem(2px) solid #c0af93;
+    padding: 0 rem(15px);
+    color: #000;
+  }
+}
+.edit-patient__saving {
+  width: 100%;
+  height: rem(50px);
+  font-size: rem(16px);
+  margin-top: rem(20px);
+  border: rem(2px) solid #c0af93;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  img {
+    display: block;
+    width: rem(32px);
+  }
+  span {
+    color: #c0af93;
+  }
+}
+.edit-patient__btn {
+  width: 100%;
+  height: rem(50px);
+  font-size: rem(16px);
+  margin-top: rem(20px);
+}
+.edit-patient__error {
+  border: 1px solid red;
+  color: red;
+  padding: 10px;
+  margin-top: 15px;
+}

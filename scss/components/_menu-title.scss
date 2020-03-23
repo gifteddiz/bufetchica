@@ -1,0 +1,37 @@
+.menu-title {
+  display: flex;
+  justify-content: space-between;
+  padding-top: rem(30px);
+  align-items: center;
+  margin-bottom: rem(20px);
+}
+.menu-title__h2 {
+  font-size: rem(25px);
+  margin: 0;
+  font-weight: 600;
+  color: #000;
+}
+.menu-title__search {
+  input {
+    background-image: url("~assets/patients-bar__search.svg");
+    background-repeat: no-repeat;
+    background-position: right rem(10px) center;
+    background-size: rem(22px) rem(22px);
+    height: rem(50px);
+    border: 0;
+    background-color: transparent;
+    border-bottom: rem(2px) solid #c0af93;
+    margin-left: rem(30px);
+    padding: 0 rem(40px) 0 rem(5px);
+    font-size: rem(16px);
+    color: #000;
+    width: rem(370px);
+    margin-right: auto;
+    @include media-breakpoint-down(sm) {
+      width: 140px;
+    }
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
