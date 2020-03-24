@@ -27,6 +27,7 @@
             :options="dropzoneOptions"
             :useCustomSlot="true"
             v-on:vdropzone-max-files-exceeded="vdropzoneMaxFilesExceeded"
+            v-on:vdropzone-success="imageUploaded"
           >
             <div class="edit-menu__img-placeholder">
               <div class="edit-menu__img-ico">
@@ -245,10 +246,12 @@ export default {
         })
         .then(response => {
           this.isSaving = false;
+
           if (response.data.error) {
             this.errors = response.data.error.error_desc;
           } else {
             this.errors = [];
+            this.$router.replace({ path: "/menus" });
           }
         });
     },
@@ -278,16 +281,22 @@ export default {
       this.parameters.allergen = result;
     },
     setImageInitially(url) {
-      var setValue = () => {
-        if (this.dropZoneMounted) {
-          var file = { size: 123, name: "", type: "image/jpg" };
-          this.$refs.myVueDropzone.removeAllFiles();
-          this.$refs.myVueDropzone.manuallyAddFile(file, url);
-        } else {
-          setTimeout(setValue, 1000);
-        }
-      };
-      setValue();
+      if (url && url.length) {
+        var setValue = () => {
+          if (this.dropZoneMounted) {
+            var file = { size: 123, name: "", type: "image/jpg" };
+            this.$refs.myVueDropzone.removeAllFiles();
+            this.$refs.myVueDropzone.manuallyAddFile(file, url);
+          } else {
+            setTimeout(setValue, 1000);
+          }
+        };
+        setValue();
+      }
+    },
+    imageUploaded(file, response) {
+      console.log(response.path);
+      this.parameters.image = response.path;
     }
   },
   mounted: function() {
