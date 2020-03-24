@@ -127,7 +127,9 @@ export const getters = {
       )
         result.push(element.ward);
     });
-    return result.sort();
+    return result.sort((a, b) => {
+      return parseInt(a - b);
+    });
   },
   getFilteredPatients: state => filter => {
     var patients = [];
