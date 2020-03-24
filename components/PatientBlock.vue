@@ -9,24 +9,17 @@
           {{ parameters.patronymic }}
         </div>
         <div class="patient-block__data">
-          <div class="patient-block__status --green"></div>
-          <div class="patient-block__data-item">
-            Палата № {{ parameters.ward }}
-          </div>
-          <div class="patient-block__data-item">
-            Диета № {{ parameters.diet }}
-          </div>
-          <div class="patient-block__data-item">
-            {{ parameters.hospitalization }}
-          </div>
+          <div
+            class="patient-block__status"
+            :class="{'--green': haveSpecialMenu(parameters.selected)}"
+          ></div>
+          <div class="patient-block__data-item">Палата № {{ parameters.ward }}</div>
+          <div class="patient-block__data-item">{{ getDietNameById(parameters.diet) }}</div>
+          <div class="patient-block__data-item">{{ parameters.hospitalization }}</div>
         </div>
       </div>
       <div class="patient-block__controls" v-if="parameters.archived">
-        <a
-          href="#"
-          class="patient-block__controls-item"
-          @click.prevent="unArchivePatient"
-        >
+        <a href="#" class="patient-block__controls-item" @click.prevent="unArchivePatient">
           <div class="patient-block__controls-ico">
             <svg
               width="29"
@@ -41,16 +34,11 @@
               />
             </svg>
           </div>
-          <div class="patient-block__controls-text --red">
-            Восстановить из архива
-          </div>
+          <div class="patient-block__controls-text --red">Восстановить из архива</div>
         </a>
       </div>
       <div class="patient-block__controls" v-else>
-        <nuxt-link
-          :to="'/patient-menu?id=' + parameters.id"
-          class="patient-block__controls-item"
-        >
+        <nuxt-link :to="'/patient-menu?id=' + parameters.id" class="patient-block__controls-item">
           <div class="patient-block__controls-ico">
             <svg
               width="21"
@@ -67,14 +55,9 @@
               />
             </svg>
           </div>
-          <div class="patient-block__controls-text --green">
-            Составить меню
-          </div>
+          <div class="patient-block__controls-text --green">Составить меню</div>
         </nuxt-link>
-        <nuxt-link
-          :to="'/edit-patient?id=' + parameters.id"
-          class="patient-block__controls-item"
-        >
+        <nuxt-link :to="'/edit-patient?id=' + parameters.id" class="patient-block__controls-item">
           <div class="patient-block__controls-ico">
             <svg
               width="29"
@@ -89,15 +72,9 @@
               />
             </svg>
           </div>
-          <div class="patient-block__controls-text --blue">
-            Редактировать информацию
-          </div>
+          <div class="patient-block__controls-text --blue">Редактировать информацию</div>
         </nuxt-link>
-        <a
-          href="#"
-          class="patient-block__controls-item"
-          @click.prevent="archivePatient"
-        >
+        <a href="#" class="patient-block__controls-item" @click.prevent="archivePatient">
           <div class="patient-block__controls-ico">
             <svg
               width="24"
@@ -141,8 +118,12 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   props: ["parameters"],
+  computed: {
+    ...mapGetters({ dietsList: "menu/dietsList" })
+  },
   methods: {
     archivePatient: function() {
       let params = { id: this.parameters.id, patient: { ...this.parameters } };
@@ -153,6 +134,22 @@ export default {
       let params = { id: this.parameters.id, patient: { ...this.parameters } };
       params.patient.archived = false;
       this.$store.dispatch("patients/editPatient", { ...params.patient });
+    },
+    getDietNameById(id) {
+      var dietName = "";
+      var diet = this.dietsList.find(dietEl => {
+        return dietEl.id === id;
+      });
+      if (diet) dietName = diet.name;
+      console.log(diet);
+      return dietName;
+    },
+    haveSpecialMenu(selected) {
+      var result = false;
+      selected.forEach(element => {
+        if (element.length) result = true;
+      });
+      return result;
     }
   }
 };

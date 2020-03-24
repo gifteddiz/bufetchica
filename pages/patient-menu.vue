@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="container">
+    <div class="loading" v-if="isLoading">
+      <img src="@/assets/ajax.gif" alt="Loading..." />
+    </div>
+    <div class="container" v-if="!isLoading">
       <nuxt-link to="/patients" class="back">
         <svg
           width="13"
@@ -20,83 +23,120 @@
       </nuxt-link>
       <div class="page-title">
         <h1 class="page-title__h1">
-          {{ parameters.surname }} {{ parameters.name }}
-          {{ parameters.patronymic }}
+          {{ getPatientObj().surname }} {{ getPatientObj().name }}
+          {{ getPatientObj().patronymic }}
         </h1>
       </div>
       <div class="patient-info">
-        <div class="patient-info__item">Палата № {{ parameters.ward }}</div>
-        <div class="patient-info__item">{{ parameters.hospitalization }}</div>
-        <div class="patient-info__item">id{{ parameters.id }}</div>
+        <div class="patient-info__item">Палата № {{ getPatientObj().ward }}</div>
+        <div class="patient-info__item">{{ getPatientObj().hospitalization }}</div>
+        <div class="patient-info__item">id{{ getPatientObj().id }}</div>
         <div class="patient-info__item">Дата добавления 12:23 02.02.2020</div>
       </div>
       <div class="menu-bar">
-        <select class="menu-bar__select" v-model="parameters.diet">
-          <option v-for="n in dietsQty" :key="n" :value="parseInt(n)">Диета №{{ n }}</option>
+        <select class="menu-bar__select" v-model="filter.diet" disabled>
+          <option :value="diet.id" v-for="diet in dietsList" :key="diet.id">
+            {{
+            diet.name
+            }}
+          </option>
         </select>
-        <a href="#" class="menu-bar__save">Сохранить диету</a>
+        <!-- <a href="#" class="menu-bar__save">Сохранить диету</a> -->
       </div>
       <div class="menu-day">
         <a
           href="#"
           class="menu-day__item"
-          :class="{ '--active': currentDay === 1 }"
+          :class="{ '--active': filter.currentDay === 1 }"
           @click.prevent="setDay(1)"
         >Понедельник</a>
         <a
           href="#"
           class="menu-day__item"
-          :class="{ '--active': currentDay === 2 }"
+          :class="{ '--active': filter.currentDay === 2 }"
           @click.prevent="setDay(2)"
         >Вторник</a>
         <a
           href="#"
           class="menu-day__item"
-          :class="{ '--active': currentDay === 3 }"
+          :class="{ '--active': filter.currentDay === 3 }"
           @click.prevent="setDay(3)"
         >Среда</a>
         <a
           href="#"
           class="menu-day__item"
-          :class="{ '--active': currentDay === 4 }"
+          :class="{ '--active': filter.currentDay === 4 }"
           @click.prevent="setDay(4)"
         >Четверг</a>
         <a
           href="#"
           class="menu-day__item"
-          :class="{ '--active': currentDay === 5 }"
+          :class="{ '--active': filter.currentDay === 5 }"
           @click.prevent="setDay(5)"
         >Пятница</a>
         <a
           href="#"
           class="menu-day__item"
-          :class="{ '--active': currentDay === 6 }"
+          :class="{ '--active': filter.currentDay === 6 }"
           @click.prevent="setDay(6)"
         >Суббота</a>
         <a
           href="#"
           class="menu-day__item"
-          :class="{ '--active': currentDay === 7 }"
+          :class="{ '--active': filter.currentDay === 7 }"
           @click.prevent="setDay(7)"
         >Воскресенье</a>
       </div>
-      <div class="menu-day-time-wrapper" v-for="(menudaytime, index) in menu" :key="index">
-        <div class="menu-title">
-          <h2 class="menu-title__h2">{{ menudaytime.name }}</h2>
-          <div class="menu-title__search" v-if="index === 0">
-            <input type="search" placeholder="Поиск по блюдам" v-model="filterName" />
+      <div class="menu-day-time-wrapper">
+        <div v-for="(menudaytime, index) in menu" :key="index">
+          <div class="menu-title">
+            <h2 class="menu-title__h2">{{ dayTimeIdToName( menudaytime.name ) }}</h2>
+            <div class="menu-title__search" v-if="index === 0">
+              <input type="search" placeholder="Поиск по блюдам" v-model="filter.name" />
+            </div>
           </div>
-        </div>
-        <div class="menu-section" v-for="(menuType, indexIn) in menudaytime.content" :key="indexIn">
-          <div class="menu-section__title">{{ menuType.name }}</div>
-          <MenuItemSelect
-            v-for="menuItem in menuType.content"
-            :key="menuItem.id"
-            :parameters="menuItem"
-            :selectedInDay="parameters.selected[(currentDay-1)]"
-            :patient="parameters"
-            :day="currentDay"
-          />
+          <div
+            class="menu-section"
+            v-for="(menuType, indexIn) in menudaytime.content"
+            :key="indexIn"
+          >
+            <nuxt-link
+              :to="'/edit-menu?diet='+filter.diet+'&day='+filter.currentDay+'&type='+menuType.name"
+              class="menu-section__add btn-1"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M-4.37114e-08 8C-6.78525e-08 7.44772 0.447715 7 1 7L15 7C15.5523 7 16 7.44771 16 8C16 8.55228 15.5523 9 15 9L1 9C0.447715 9 -1.95703e-08 8.55228 -4.37114e-08 8Z"
+                  fill="white"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M8 0C8.55228 0 9 0.447715 9 1V15C9 15.5523 8.55228 16 8 16C7.44772 16 7 15.5523 7 15V1C7 0.447715 7.44772 0 8 0Z"
+                  fill="white"
+                />
+              </svg>
+            </nuxt-link>
+            <div class="menu-section__title">{{ menuType.name }}</div>
+            <transition-group name="fade">
+              <MenuItemSelect
+                v-for="menuItem in menuType.content"
+                :key="menuItem.id"
+                :parameters="menuItem"
+                :selectedInDay="getPatientObj().selected[(filter.currentDay-1)]"
+                :patient="getPatientObj()"
+                :day="filter.currentDay"
+              />
+            </transition-group>
+          </div>
         </div>
       </div>
     </div>
@@ -106,32 +146,19 @@
 <script>
 import MenuItemSelect from "../components/MenuItemSelect";
 import { mapMutations, mapGetters } from "vuex";
+import fetchData from "../mixins/fetchData";
 
 export default {
   middleware: "authorized",
+  mixins: [fetchData],
   data: function() {
     return {
-      currentDay: 1,
-      filterName: "",
-      parameters: {
-        id: null,
+      showPickDish: false,
+      parameters: {},
+      filter: {
+        diet: 1369,
         name: "",
-        surname: "",
-        patronymic: "",
-        birthdate: "",
-        address: null,
-        arrivaldate: "",
-        ward: null,
-        diet: null,
-        breakfast: null,
-        lunch: null,
-        hightea: null,
-        dinner: null,
-        sourmilk: null,
-        hospitalization: "",
-        eating: null,
-        archived: false,
-        selected: [[], [], [], [], [], [], []]
+        currentDay: 1
       }
     };
   },
@@ -139,29 +166,37 @@ export default {
     MenuItemSelect: MenuItemSelect
   },
   computed: {
-    ...mapGetters({ dietsQty: "menu/dietsQty" }),
+    ...mapGetters({
+      dietsList: "menu/dietsList",
+      dayTimeList: "menu/dayTimeList"
+    }),
     menu() {
       return this.$store.getters["menu/getMenu"](this.filter);
-    },
-    filter: function() {
-      return {
-        diet: this.parameters.diet,
-        name: this.filterName
-      };
     }
   },
   methods: {
     setDay: function(day) {
-      this.currentDay = day;
-    }
-  },
-  created: function() {
-    if (this.$route.query.id) {
-      this.parameters = {
+      this.filter.currentDay = day;
+    },
+    dayTimeIdToName(id) {
+      // Возвращает название времени дня
+      var result = "";
+      var dayTimeObj = {};
+
+      dayTimeObj = this.dayTimeList.find(el => {
+        return el.id === id;
+      });
+      if (typeof dayTimeObj !== "undefined") result = dayTimeObj.name;
+
+      return result;
+    },
+    getPatientObj() {
+      return {
         ...this.$store.getters["patients/getPatient"](this.$route.query.id)
       };
     }
-  }
+  },
+  created: function() {}
 };
 </script>
 

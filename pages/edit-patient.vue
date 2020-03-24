@@ -317,10 +317,10 @@ export default {
             this.errors = response.data.error.error_desc;
           } else {
             this.errors = [];
+            this.$router.replace({ path: "/patients" });
           }
         });
-    },
-    ...mapMutations({ editPatient: "patients/editPatient" })
+    }
   }
 };
 </script>

@@ -1,22 +1,16 @@
 <template>
   <transition name="fade">
     <div class="menu-item-select">
-      <div
-        class="menu-item-select__img"
-        :style="'background-image: url(' + parameters.image + ')'"
-      ></div>
+      <div class="menu-item-select__img" :style="'background-image: url(' + parameters.image + ')'"></div>
       <div class="menu-item-select__content">
         <div class="menu-item-select__title">{{ parameters.name }}</div>
-        <div class="menu-item-select__text">
-          {{ parameters.description.substring(0, 200) }}
-        </div>
+        <div
+          class="menu-item-select__text"
+          v-if="parameters.description"
+        >{{ parameters.description.substring(0, 200) }}</div>
       </div>
       <div class="menu-item-select__controls">
-        <a
-          href="#"
-          class="menu-item-select__controls-chose"
-          @click.prevent="toggleSelected"
-        >
+        <a href="#" class="menu-item-select__controls-chose" @click.prevent="toggleSelected">
           <span class="menu-item-select__controls-chose-option" v-if="selected">
             <svg
               width="46"
@@ -51,18 +45,8 @@
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                d="M15 22L29 22"
-                stroke="#8E7E63"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-              <path
-                d="M22 15V29"
-                stroke="#8E7E63"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
+              <path d="M15 22L29 22" stroke="#8E7E63" stroke-width="2" stroke-linecap="round" />
+              <path d="M22 15V29" stroke="#8E7E63" stroke-width="2" stroke-linecap="round" />
               <rect
                 x="1"
                 y="43"
@@ -81,7 +65,6 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
 export default {
   props: ["parameters", "selectedInDay", "patient", "day"],
   computed: {
@@ -99,13 +82,12 @@ export default {
   },
   methods: {
     toggleSelected: function() {
-      this.toggleRecipeSelect({
+      this.$store.dispatch("patients/toggleRecipeSelect", {
         userID: this.patient.id,
         recipeId: this.parameters.id,
         day: this.day
       });
-    },
-    ...mapMutations({ toggleRecipeSelect: "patients/toggleRecipeSelect" })
+    }
   }
 };
 </script>

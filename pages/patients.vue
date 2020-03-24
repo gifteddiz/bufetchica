@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="container">
+    <div class="loading" v-if="isLoading">
+      <img src="@/assets/ajax.gif" alt="Loading..." />
+    </div>
+    <div class="container" v-if="!isLoading">
       <div class="page-title --mt">
         <nuxt-link to="/edit-patient" class="page-title__add btn-1">
           <svg

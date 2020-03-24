@@ -1,5 +1,6 @@
 import Vue from "vue";
 import axios from "axios";
+import helpers from "~/assets/js/helpers";
 
 export const state = () => ({
   patients: []
@@ -16,24 +17,6 @@ export const mutations = {
   },
   FETCH_PATIENTS(state, patients) {
     state.patients = patients.patients;
-  },
-  toggleRecipeSelect(state, params) {
-    // Переключает наличие блюда в меню пользователя
-    // params.userID params.recipeId params.day
-    const userIndex = state.patients.findIndex(
-      patient => patient.id === params.userID
-    );
-    var newPatientObj = { ...state.patients[userIndex] };
-
-    var recipeIndexPatient = newPatientObj.selected[params.day].findIndex(
-      el => el === params.recipeId
-    );
-
-    if (recipeIndexPatient === -1) {
-      newPatientObj.selected[params.day].push(params.recipeId);
-    } else {
-      newPatientObj.selected[params.day].splice(recipeIndexPatient, 1);
-    }
   }
 };
 
@@ -52,6 +35,7 @@ export const actions = {
     });
   },
   editPatient({ commit }, payload) {
+    // Редактирует данные пациента, принимает объект пациента
     var url;
     var newPatient = false;
     if (payload.id) {
@@ -86,6 +70,27 @@ export const actions = {
           console.log(error);
         });
     });
+  },
+  toggleRecipeSelect({ state, dispatch }, payload) {
+    // Переключает наличие блюда в меню пользователя
+    // payload.userID payload.recipeId payload.day
+    const userIndex = state.patients.findIndex(
+      patient => patient.id === payload.userID
+    );
+    var newPatientObj = helpers.deepCopy(state.patients[userIndex]);
+    var dayIndex = payload.day - 1;
+
+    var recipeIndexPatient = newPatientObj.selected[dayIndex].findIndex(
+      el => el === payload.recipeId
+    );
+
+    if (recipeIndexPatient === -1) {
+      newPatientObj.selected[dayIndex].push(payload.recipeId);
+    } else {
+      newPatientObj.selected[dayIndex].splice(recipeIndexPatient, 1);
+    }
+
+    dispatch("editPatient", newPatientObj);
   }
 };
 
