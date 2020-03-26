@@ -11,15 +11,25 @@
         <div class="patient-block__data">
           <div
             class="patient-block__status"
-            :class="{'--green': haveSpecialMenu(parameters.selected)}"
+            :class="{ '--green': haveSpecialMenu(parameters.selected) }"
           ></div>
-          <div class="patient-block__data-item">Палата № {{ parameters.ward }}</div>
-          <div class="patient-block__data-item">{{ getDietNameById(parameters.diet) }}</div>
-          <div class="patient-block__data-item">{{ parameters.hospitalization }}</div>
+          <div class="patient-block__data-item">
+            Палата № {{ parameters.ward }}
+          </div>
+          <div class="patient-block__data-item">
+            {{ getDietNameById(parameters.diet) }}
+          </div>
+          <div class="patient-block__data-item">
+            {{ parameters.hospitalization }}
+          </div>
         </div>
       </div>
       <div class="patient-block__controls" v-if="parameters.archived">
-        <a href="#" class="patient-block__controls-item" @click.prevent="unArchivePatient">
+        <a
+          href="#"
+          class="patient-block__controls-item"
+          @click.prevent="unArchivePatient"
+        >
           <div class="patient-block__controls-ico">
             <svg
               width="29"
@@ -34,11 +44,16 @@
               />
             </svg>
           </div>
-          <div class="patient-block__controls-text --red">Восстановить из архива</div>
+          <div class="patient-block__controls-text --red">
+            Восстановить из архива
+          </div>
         </a>
       </div>
       <div class="patient-block__controls" v-else>
-        <nuxt-link :to="'/patient-menu?id=' + parameters.id" class="patient-block__controls-item">
+        <nuxt-link
+          :to="'/patient-menu?id=' + parameters.id"
+          class="patient-block__controls-item"
+        >
           <div class="patient-block__controls-ico">
             <svg
               width="21"
@@ -57,7 +72,10 @@
           </div>
           <div class="patient-block__controls-text --green">Составить меню</div>
         </nuxt-link>
-        <nuxt-link :to="'/edit-patient?id=' + parameters.id" class="patient-block__controls-item">
+        <nuxt-link
+          :to="'/edit-patient?id=' + parameters.id"
+          class="patient-block__controls-item"
+        >
           <div class="patient-block__controls-ico">
             <svg
               width="29"
@@ -72,9 +90,15 @@
               />
             </svg>
           </div>
-          <div class="patient-block__controls-text --blue">Редактировать информацию</div>
+          <div class="patient-block__controls-text --blue">
+            Редактировать информацию
+          </div>
         </nuxt-link>
-        <a href="#" class="patient-block__controls-item" @click.prevent="archivePatient">
+        <a
+          href="#"
+          class="patient-block__controls-item"
+          @click.prevent="archivePatient"
+        >
           <div class="patient-block__controls-ico">
             <svg
               width="24"
@@ -141,7 +165,6 @@ export default {
         return dietEl.id === id;
       });
       if (diet) dietName = diet.name;
-      console.log(diet);
       return dietName;
     },
     haveSpecialMenu(selected) {

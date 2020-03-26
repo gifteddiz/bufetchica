@@ -35,7 +35,7 @@ module.exports = {
   },
   mode: "spa",
   css: [{ src: "~/scss/style.scss", lang: "scss" }],
-  plugins: ["~plugins/vuemask.client.js"],
+  plugins: ["~plugins/vuemask.client.js", "~plugins/axios.js"],
   modules: ["@nuxtjs/axios", "@nuxtjs/auth"],
   axios: {
     baseURL: "http://emcq.zapusq.ru"

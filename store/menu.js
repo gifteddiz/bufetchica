@@ -1,5 +1,5 @@
 import Vue from "vue";
-import axios from "axios";
+// import axios from "axios";
 import helpers from "~/assets/js/helpers";
 
 export const state = () => ({
@@ -39,7 +39,7 @@ export const mutations = {
 export const actions = {
   fetchMenu({ commit }, { self }) {
     return new Promise((resolve, reject) => {
-      axios
+      this.$axios
         .get("http://emcq.zapusq.ru/rest/diets/")
         .then(response => {
           commit("FETCH_MENU", response.data);
@@ -63,7 +63,7 @@ export const actions = {
     }
 
     return new Promise((resolve, reject) => {
-      axios
+      this.$axios
         .post(url, {
           dish: payload
         })

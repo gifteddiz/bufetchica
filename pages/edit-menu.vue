@@ -295,7 +295,6 @@ export default {
       }
     },
     imageUploaded(file, response) {
-      console.log(response.path);
       this.parameters.image = response.path;
     }
   },

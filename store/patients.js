@@ -1,5 +1,5 @@
 import Vue from "vue";
-import axios from "axios";
+// import axios from "axios";
 import helpers from "~/assets/js/helpers";
 
 export const state = () => ({
@@ -23,8 +23,8 @@ export const mutations = {
 export const actions = {
   fetchPatients({ commit }, { self }) {
     return new Promise((resolve, reject) => {
-      axios
-        .get("http://emcq.zapusq.ru/rest/patients/")
+      this.$axios
+        .get("/rest/patients/")
         .then(response => {
           commit("FETCH_PATIENTS", response.data);
           resolve(true);
@@ -45,7 +45,7 @@ export const actions = {
       newPatient = true;
     }
     return new Promise((resolve, reject) => {
-      axios
+      this.$axios
         .post(url, {
           patient: payload
         })
