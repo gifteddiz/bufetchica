@@ -9,7 +9,6 @@ export default ({ $axios, store }) => {
 
     // Get token from auth.js store
     const token = store.state.token;
-    console.log(request);
     // Update token axios header
     if (token) {
       request.headers.common["Authorization"] = token;

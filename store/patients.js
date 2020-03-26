@@ -3,7 +3,8 @@ import Vue from "vue";
 import helpers from "~/assets/js/helpers";
 
 export const state = () => ({
-  patients: []
+  patients: [],
+  archived: []
 });
 
 export const mutations = {
@@ -17,6 +18,9 @@ export const mutations = {
   },
   FETCH_PATIENTS(state, patients) {
     state.patients = patients.patients;
+  },
+  FETCH_ARCHIVED_PATIENTS(state, patients) {
+    state.archived = patients.patients;
   }
 };
 
@@ -27,6 +31,19 @@ export const actions = {
         .get("http://emcq.zapusq.ru/rest/patients/")
         .then(response => {
           commit("FETCH_PATIENTS", response.data);
+          resolve(true);
+        })
+        .catch(error => {
+          console.log(error.statusText);
+        });
+    });
+  },
+  fetchArchivedPatients({ commit }, { self }) {
+    return new Promise((resolve, reject) => {
+      this.$axios
+        .get("http://emcq.zapusq.ru/rest/patients-archive/")
+        .then(response => {
+          commit("FETCH_ARCHIVED_PATIENTS", response.data);
           resolve(true);
         })
         .catch(error => {
@@ -138,10 +155,13 @@ export const getters = {
   },
   getFilteredPatients: state => filter => {
     var patients = [];
-    if (!state.patients.length) return patients;
-    patients = state.patients.filter(
-      patient => patient.archived === filter.archived
-    );
+    if (!state.patients.length && !state.archived.length) return patients;
+
+    if (filter.archived) {
+      patients = state.archived;
+    } else {
+      patients = state.patients;
+    }
 
     if (filter.address) {
       patients = patients.filter(patient => patient.address == filter.address);

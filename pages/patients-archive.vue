@@ -89,7 +89,7 @@ export default {
     }
   },
   created() {
-    // this.$store.dispatch("patients/fetchUsers", { self: this });
+    this.$store.dispatch("patients/fetchArchivedPatients", { self: this });
   }
 };
 </script>
