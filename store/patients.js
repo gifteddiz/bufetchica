@@ -24,7 +24,7 @@ export const actions = {
   fetchPatients({ commit }, { self }) {
     return new Promise((resolve, reject) => {
       this.$axios
-        .get("/rest/patients/")
+        .get("http://emcq.zapusq.ru/rest/patients/")
         .then(response => {
           commit("FETCH_PATIENTS", response.data);
           resolve(true);
