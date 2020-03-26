@@ -38,19 +38,19 @@ module.exports = {
   plugins: ["~plugins/vuemask.client.js"],
   modules: ["@nuxtjs/axios", "@nuxtjs/auth"],
   axios: {
-    baseURL: "http://andrey-medvedev.ru/dev/bufcrud"
+    baseURL: "http://emcq.zapusq.ru"
   },
   auth: {
     strategies: {
       local: {
         endpoints: {
           login: {
-            url: "/wp-json/jwt-auth/v1/token",
+            url: "/rest/me",
             method: "post",
             propertyName: "token"
           },
           user: {
-            url: "/wp-json/wp/v2/users/me",
+            url: "/rest/me",
             method: "get",
             propertyName: "name"
           },
