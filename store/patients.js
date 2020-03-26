@@ -4,7 +4,9 @@ import helpers from "~/assets/js/helpers";
 
 export const state = () => ({
   patients: [],
-  archived: []
+  archived: [],
+  hospitalization: [],
+  address: []
 });
 
 export const mutations = {
@@ -18,6 +20,8 @@ export const mutations = {
   },
   FETCH_PATIENTS(state, patients) {
     state.patients = patients.patients;
+    state.hospitalization = patients.hospitalization;
+    state.address = patients.address;
   },
   FETCH_ARCHIVED_PATIENTS(state, patients) {
     state.archived = patients.patients;
@@ -127,31 +131,40 @@ export const getters = {
   },
   getAddresses(state) {
     var result = [];
-    if (!state.patients.length) return result;
-    state.patients.forEach(element => {
-      if (
-        result.findIndex(el => {
-          return el === element.address;
-        }) === -1
-      )
-        result.push(element.address);
-    });
-    return result.sort();
+    if (!state.address.length) return result;
+    result = state.address;
+    return result;
+  },
+  getHospitalization(state) {
+    var result = [];
+    if (!state.hospitalization.length) return result;
+    result = state.hospitalization;
+    return result;
   },
   getWards(state) {
-    var result = [];
-    if (!state.patients.length) return result;
-    state.patients.forEach(element => {
-      if (
-        result.findIndex(el => {
-          return el === element.ward;
-        }) === -1
-      )
-        result.push(element.ward);
-    });
-    return result.sort((a, b) => {
-      return parseInt(a - b);
-    });
+    return isArchived => {
+      var result = [];
+      var patientsArr = [];
+
+      if (isArchived) {
+        patientsArr = state.archived;
+      } else {
+        patientsArr = state.patients;
+      }
+
+      if (!patientsArr.length) return result;
+      patientsArr.forEach(element => {
+        if (
+          result.findIndex(el => {
+            return el === element.ward;
+          }) === -1
+        )
+          result.push(element.ward);
+      });
+      return result.sort((a, b) => {
+        return parseInt(a - b);
+      });
+    };
   },
   getFilteredPatients: state => filter => {
     var patients = [];

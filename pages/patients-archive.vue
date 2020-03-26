@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="container">
+    <div class="loading" v-if="isLoading">
+      <img src="@/assets/ajax.gif" alt="Loading..." />
+    </div>
+    <div class="container" v-if="!isLoading">
       <nuxt-link to="/patients" class="back">
         <svg
           width="13"
@@ -25,11 +28,11 @@
         <a
           href="#"
           class="addresses__item"
-          :class="{ '--active': address === filter.address }"
+          :class="{ '--active': address.name === filter.address }"
           v-for="(address, index) in addresses"
           :key="index"
-          @click.prevent="addressClick(address)"
-        >{{ address }}</a>
+          @click.prevent="addressClick(address.name)"
+        >{{ address.name }}</a>
       </div>
       <div class="patients-bar">
         <div class="patients-bar__top">Фильтровать:</div>
@@ -54,9 +57,11 @@
 <script>
 import PatientList from "../components/PatientList";
 import { mapGetters } from "vuex";
+import fetchData from "../mixins/fetchData";
 
 export default {
   middleware: "authorized",
+  mixins: [fetchData],
   data: function() {
     return {
       filter: {
@@ -74,9 +79,11 @@ export default {
     patients() {
       return this.$store.getters["patients/getFilteredPatients"](this.filter);
     },
+    wards() {
+      return this.$store.getters["patients/getWards"](true);
+    },
     ...mapGetters({
-      addresses: "patients/getAddresses",
-      wards: "patients/getWards"
+      addresses: "patients/getAddresses"
     })
   },
   methods: {

@@ -57,8 +57,7 @@
         <div class="edit-patient__input-name">Адрес</div>
         <div class="edit-patient__select">
           <select v-model="parameters.address">
-            <option>ул Щепкина 35</option>
-            <option>Орловский пер 7</option>
+            <option v-for="address in addressesList" :key="address.id">{{address.name}}</option>
           </select>
         </div>
         <div class="edit-patient__input-name">Дата поступления</div>
@@ -232,7 +231,10 @@
         <div class="edit-patient__input-name">Госпитализация</div>
         <div class="edit-patient__select">
           <select v-model="parameters.hospitalization">
-            <option>Амбулаторно</option>
+            <option
+              v-for="hospitalization in hospitalizationList"
+              :key="hospitalization.id"
+            >{{hospitalization.name}}</option>
           </select>
         </div>
         <div class="edit-patient__input-name">Прием пищи</div>
@@ -272,7 +274,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ dietsList: "menu/dietsList" }),
+    ...mapGetters({
+      dietsList: "menu/dietsList",
+      addressesList: "patients/getAddresses",
+      hospitalizationList: "patients/getHospitalization"
+    }),
     urlId() {
       return this.$route.query.id;
     },

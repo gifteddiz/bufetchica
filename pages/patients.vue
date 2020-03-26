@@ -33,11 +33,11 @@
         <a
           href="#"
           class="addresses__item"
-          :class="{ '--active': address === filter.address }"
+          :class="{ '--active': address.name === filter.address }"
           v-for="(address, index) in addresses"
           :key="index"
-          @click.prevent="addressClick(address)"
-        >{{ address }}</a>
+          @click.prevent="addressClick(address.name)"
+        >{{ address.name }}</a>
       </div>
       <div class="patients-bar">
         <div class="patients-bar__top">Фильтровать:</div>
@@ -112,9 +112,11 @@ export default {
     patients() {
       return this.$store.getters["patients/getFilteredPatients"](this.filter);
     },
+    wards() {
+      return this.$store.getters["patients/getWards"](false);
+    },
     ...mapGetters({
-      addresses: "patients/getAddresses",
-      wards: "patients/getWards"
+      addresses: "patients/getAddresses"
     })
   },
   methods: {
