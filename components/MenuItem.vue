@@ -4,6 +4,13 @@
       class="menu-item__img"
       :style="'background-image: url(' + parameters.image + ')'"
       @click="toggleModal"
+      v-if="parameters.image"
+    ></div>
+    <div
+      class="menu-item__img"
+      style="background-image: url(/images/default-img.jpg)"
+      @click="toggleModal"
+      v-else
     ></div>
     <div class="menu-item__content">
       <div class="menu-item__title" @click="toggleModal">{{ parameters.name }}</div>
@@ -100,7 +107,16 @@
     </div>
     <ModalBlock v-bind:show="showModal" v-on:toggleShow="toggleModal">
       <div class="menu-item-modal">
-        <div class="menu-item-modal__img" style="background-image: url(/images/food-2.jpg)"></div>
+        <div
+          class="menu-item-modal__img"
+          :style="'background-image: url('+parameters.image+')'"
+          v-if="parameters.image"
+        ></div>
+        <div
+          class="menu-item-modal__img"
+          style="background-image: url(/images/default-img.jpg)"
+          v-else
+        ></div>
         <div class="menu-item-modal__content">
           <div class="menu-item-modal__title">{{ parameters.name }}</div>
           <ul class="menu-item-modal__list">

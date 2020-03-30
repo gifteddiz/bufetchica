@@ -8,7 +8,12 @@
           :key="dish.id"
           @click="selectDish(dish.id)"
         >
-          <div class="pick-dish__img" :style="'background-image: url(' + dish.image + ')'"></div>
+          <div
+            class="pick-dish__img"
+            :style="'background-image: url(' + dish.image + ')'"
+            v-if="dish.image"
+          ></div>
+          <div class="pick-dish__img" style="background-image: url(/images/default-img.jpg)" v-else></div>
           <div class="pick-dish__title">{{dish.name}}</div>
         </div>
       </transition-group>

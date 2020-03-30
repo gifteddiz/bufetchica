@@ -90,23 +90,48 @@
         </div>
         <div class="edit-menu__input-name">Энергетическая ценность</div>
         <div class="edit-menu__input">
-          <input type="text" placeholder="Энергетическая ценность" v-model="parameters.energy" />
+          <input
+            type="text"
+            placeholder="Энергетическая ценность"
+            v-model="parameters.energy"
+            @keypress="isNumber($event)"
+          />
         </div>
         <div class="edit-menu__input-name">Белки</div>
         <div class="edit-menu__input">
-          <input type="text" placeholder="Белки" v-model="parameters.protein" />
+          <input
+            type="text"
+            placeholder="Белки"
+            v-model="parameters.protein"
+            @keypress="isNumber($event)"
+          />
         </div>
         <div class="edit-menu__input-name">Углеводы</div>
         <div class="edit-menu__input">
-          <input type="text" placeholder="Углеводы" v-model="parameters.carb" />
+          <input
+            type="text"
+            placeholder="Углеводы"
+            v-model="parameters.carb"
+            @keypress="isNumber($event)"
+          />
         </div>
         <div class="edit-menu__input-name">Жиры</div>
         <div class="edit-menu__input">
-          <input type="text" placeholder="Жиры" v-model="parameters.fats" />
+          <input
+            type="text"
+            placeholder="Жиры"
+            v-model="parameters.fats"
+            @keypress="isNumber($event)"
+          />
         </div>
         <div class="edit-menu__input-name">Вес</div>
         <div class="edit-menu__input">
-          <input type="text" placeholder="Вес" v-model="parameters.weight" />
+          <input
+            type="text"
+            placeholder="Вес"
+            v-model="parameters.weight"
+            @keypress="isNumber($event)"
+          />
         </div>
 
         <div class="edit-menu__input-name">Аллергены</div>
@@ -197,7 +222,7 @@ export default {
           weight: "",
           daytime: "",
           portions: "",
-          allergen: "",
+          allergen: [],
           fats: "",
           id: "",
           name: "",
@@ -227,7 +252,9 @@ export default {
         maxFilesize: 2,
         maxFiles: 1,
         addRemoveLinks: true,
-        headers: { "My-Awesome-Header": "header value" },
+        headers: {
+          Authorization: this.$auth.getToken("local")
+        },
         dictRemoveFile: "Удалить файл",
         dictCancelUpload: "Отменить загрузку"
       };
@@ -296,6 +323,19 @@ export default {
     },
     imageUploaded(file, response) {
       this.parameters.image = response.path;
+    },
+    isNumber: function(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+      if (
+        charCode > 31 &&
+        (charCode < 48 || charCode > 57) &&
+        charCode !== 46
+      ) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
     }
   },
   mounted: function() {

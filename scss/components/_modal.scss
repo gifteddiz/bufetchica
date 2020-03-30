@@ -10,6 +10,7 @@
   overflow-y: scroll;
   align-items: flex-start;
   margin-right: -20px;
+  z-index: 9999;
 }
 .modal {
   position: relative;

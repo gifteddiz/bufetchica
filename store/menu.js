@@ -119,6 +119,7 @@ export const actions = {
     if (addDay) {
       dish.diet.forEach(element => {
         if (parseInt(element.id) === parseInt(payload.diet)) {
+          console.log(payload.day);
           element.days.push(payload.day);
         }
       });

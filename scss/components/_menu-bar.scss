@@ -14,6 +14,9 @@
   background-color: #fff;
   padding: 0 rem(10px);
   font-weight: bold;
+  &:disabled {
+    appearance: none;
+  }
 }
 .menu-bar__save {
   width: rem(270px);
