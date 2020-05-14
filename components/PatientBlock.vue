@@ -15,7 +15,6 @@
           ></div>
           <div class="patient-block__data-item">Палата № {{ parameters.ward }}</div>
           <div class="patient-block__data-item">{{ getDietNameById(parameters.diet) }}</div>
-          <div class="patient-block__data-item">{{ parameters.hospitalization }}</div>
         </div>
       </div>
       <div class="patient-block__controls" v-if="parameters.archived">

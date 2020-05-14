@@ -228,27 +228,6 @@
             <option value="2400">24:00</option>
           </select>
         </div>
-        <div class="edit-patient__input-name">Госпитализация</div>
-        <div class="edit-patient__select">
-          <select v-model="parameters.hospitalization">
-            <option
-              v-for="hospitalization in hospitalizationList"
-              :key="hospitalization.id"
-            >{{hospitalization.name}}</option>
-          </select>
-        </div>
-        <div class="edit-patient__input-name">Прием пищи</div>
-        <div class="edit-patient__select">
-          <select v-model="parameters.eating">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-            <option>7</option>
-          </select>
-        </div>
         <div class="edit-patient__saving" v-if="isSaving">
           <img src="~assets/ajax.gif" />
           <span>Сохранение</span>
@@ -276,8 +255,7 @@ export default {
   computed: {
     ...mapGetters({
       dietsList: "menu/dietsList",
-      addressesList: "patients/getAddresses",
-      hospitalizationList: "patients/getHospitalization"
+      addressesList: "patients/getAddresses"
     }),
     urlId() {
       return this.$route.query.id;
@@ -303,8 +281,6 @@ export default {
           hightea: "",
           dinner: "",
           sourmilk: "",
-          hospitalization: "",
-          eating: "",
           archived: false,
           selected: [[], [], [], [], [], [], []]
         };

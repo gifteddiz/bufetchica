@@ -165,12 +165,12 @@
             >{{daytime.name}}</option>
           </select>
         </div>
-        <div class="edit-menu__input-name">Тип блюда</div>
+        <!-- <div class="edit-menu__input-name">Тип блюда</div>
         <div class="edit-menu__select">
           <select v-model="parameters.type">
             <option v-for="dishType in dishTypeList" :key="dishType.id">{{dishType.name}}</option>
           </select>
-        </div>
+        </div>-->
         <div class="edit-menu__saving" v-if="isSaving">
           <img src="~assets/ajax.gif" />
           <span>Сохранение</span>
@@ -212,9 +212,9 @@ export default {
       } else {
         var diet = this.$route.query.diet;
         var currentDay = this.$route.query.day;
-        var type = this.$route.query.type;
+        // var type = this.$route.query.type;
         data = {
-          type: "",
+          // type: "",
           consist: "",
           energy: "",
           protein: "",
@@ -234,16 +234,16 @@ export default {
           id: diet,
           days: [currentDay]
         });
-        if (type) {
-          data.type = type;
-        }
+        // if (type) {
+        //   data.type = type;
+        // }
       }
       return { ...data };
     },
     ...mapGetters({
       allergenOptions: "menu/allergenList",
-      dayTimeList: "menu/dayTimeList",
-      dishTypeList: "menu/dishTypeList"
+      dayTimeList: "menu/dayTimeList"
+      // dishTypeList: "menu/dishTypeList"
     }),
     dropzoneOptions() {
       return {

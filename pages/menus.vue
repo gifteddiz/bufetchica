@@ -90,13 +90,9 @@
               <input type="search" placeholder="Поиск по блюдам" v-model="filter.name" />
             </div>
           </div>
-          <div
-            class="menu-section"
-            v-for="(menuType, indexIn) in menudaytime.content"
-            :key="indexIn"
-          >
+          <div class="menu-section">
             <nuxt-link
-              :to="'/edit-menu?diet='+filter.diet+'&day='+filter.currentDay+'&type='+menuType.name"
+              :to="'/edit-menu?diet='+filter.diet+'&day='+filter.currentDay"
               class="menu-section__add btn-1"
             >
               <svg
@@ -120,10 +116,10 @@
                 />
               </svg>
             </nuxt-link>
-            <div class="menu-section__title">{{ menuType.name }}</div>
+            <!-- <div class="menu-section__title">{{ menuType.name }}</div> -->
             <transition-group name="fade">
               <MenuItem
-                v-for="menuItem in menuType.content"
+                v-for="menuItem in menudaytime.content"
                 :key="menuItem.id"
                 :parameters="menuItem"
                 :currentDay="filter.currentDay"
@@ -154,7 +150,7 @@ export default {
     return {
       showPickDish: false,
       filter: {
-        diet: 1369,
+        diet: 0,
         name: "",
         currentDay: 1
       }
@@ -169,10 +165,8 @@ export default {
       var result = [];
       if (this.menu.length) {
         this.menu.forEach(daytime => {
-          daytime.content.forEach(type => {
-            type.content.forEach(el => {
-              result.push(parseInt(el.id));
-            });
+          daytime.content.forEach(el => {
+            result.push(parseInt(el.id));
           });
         });
       }
@@ -206,6 +200,17 @@ export default {
 
       return result;
     }
+  },
+  created() {
+    // Выбор первой диеты в селекте
+    var setDiet = () => {
+      if (this.isLoading) {
+        setTimeout(setDiet, 200);
+      } else {
+        this.filter.diet = this.dietsList[0]["id"];
+      }
+    };
+    setDiet();
   }
 };
 </script>

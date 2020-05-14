@@ -199,25 +199,35 @@ export const getters = {
         return el.name === element.daytime;
       });
 
-      if (
-        result[indexdaytime].content.findIndex(el => {
-          return el.name === element.type;
-        }) === -1
-      ) {
-        result[indexdaytime].content.push({
-          name: element.type,
-          content: []
-        });
-      }
+      // if (
+      //   result[indexdaytime].content.findIndex(el => {
+      //     return el.name === element.type;
+      //   }) === -1
+      // ) {
+      //   result[indexdaytime].content.push({
+      //     name: element.type,
+      //     content: []
+      //   });
+      // }
 
       // Наполняем рецептами
       // Индекс типа
-      var indexType = result[indexdaytime].content.findIndex(el => {
-        return el.name === element.type;
-      });
-      result[indexdaytime].content[indexType].content.push({
+      // var indexType = result[indexdaytime].content.findIndex(el => {
+      //   return el.name === element.type;
+      // });
+      result[indexdaytime].content.push({
         ...element
       });
+    });
+
+    result.sort((a, b) => {
+      var order = {
+        "1366": 0,
+        "1367": 1,
+        "2001": 2,
+        "1368": 3
+      };
+      return order[a.name] - order[b.name];
     });
     return result;
   },

@@ -5,7 +5,6 @@ import helpers from "~/assets/js/helpers";
 export const state = () => ({
   patients: [],
   archived: [],
-  hospitalization: [],
   address: []
 });
 
@@ -20,7 +19,6 @@ export const mutations = {
   },
   FETCH_PATIENTS(state, patients) {
     state.patients = patients.patients;
-    state.hospitalization = patients.hospitalization;
     state.address = patients.address;
   },
   FETCH_ARCHIVED_PATIENTS(state, patients) {
@@ -133,12 +131,6 @@ export const getters = {
     var result = [];
     if (!state.address.length) return result;
     result = state.address;
-    return result;
-  },
-  getHospitalization(state) {
-    var result = [];
-    if (!state.hospitalization.length) return result;
-    result = state.hospitalization;
     return result;
   },
   getWards(state) {
