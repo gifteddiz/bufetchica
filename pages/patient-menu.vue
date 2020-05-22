@@ -29,7 +29,6 @@
       </div>
       <div class="patient-info">
         <div class="patient-info__item">Палата № {{ getPatientObj().ward }}</div>
-        <div class="patient-info__item">{{ getPatientObj().hospitalization }}</div>
         <div class="patient-info__item">id{{ getPatientObj().id }}</div>
         <div class="patient-info__item">Дата добавления 12:23 02.02.2020</div>
       </div>

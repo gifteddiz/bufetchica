@@ -199,7 +199,7 @@
             <option value="2400">24:00</option>
           </select>
         </div>
-        <div class="edit-patient__input-name">Кисломолочные продукты</div>
+        <!-- <div class="edit-patient__input-name">Кисломолочные продукты</div>
         <div class="edit-patient__select">
           <select v-model="parameters.sourmilk">
             <option value="100">01:00</option>
@@ -227,7 +227,7 @@
             <option value="2300">23:00</option>
             <option value="2400">24:00</option>
           </select>
-        </div>
+        </div>-->
         <div class="edit-patient__saving" v-if="isSaving">
           <img src="~assets/ajax.gif" />
           <span>Сохранение</span>
@@ -280,7 +280,7 @@ export default {
           lunch: "",
           hightea: "",
           dinner: "",
-          sourmilk: "",
+          // sourmilk: "",
           archived: false,
           selected: [[], [], [], [], [], [], []]
         };
