@@ -173,6 +173,11 @@ export default {
       return result;
     },
     menu() {
+      if (this.filter.diet) {
+        localStorage.setItem("menus_filter_diet", this.filter.diet);
+        localStorage.setItem("menus_filter_name", this.filter.name);
+        localStorage.setItem("menus_filter_day", this.filter.currentDay);
+      }
       return this.$store.getters["menu/getMenu"](this.filter);
     }
   },
@@ -207,7 +212,16 @@ export default {
       if (this.isLoading) {
         setTimeout(setDiet, 200);
       } else {
-        this.filter.diet = this.dietsList[0]["id"];
+        if (localStorage.getItem("menus_filter_diet")) {
+          var filter = {
+            diet: localStorage.getItem("menus_filter_diet"),
+            name: localStorage.getItem("menus_filter_name"),
+            currentDay: parseInt(localStorage.getItem("menus_filter_day"))
+          };
+          this.filter = filter;
+        } else {
+          this.filter.diet = this.dietsList[0]["id"];
+        }
       }
     };
     setDiet();
