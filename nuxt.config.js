@@ -58,5 +58,8 @@ module.exports = {
         }
       }
     }
+  },
+  router: {
+    base: "/bufet/"
   }
 };

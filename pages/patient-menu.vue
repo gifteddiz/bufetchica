@@ -30,7 +30,7 @@
       <div class="patient-info">
         <div class="patient-info__item">Палата № {{ getPatientObj().ward }}</div>
         <div class="patient-info__item">id{{ getPatientObj().id }}</div>
-        <div class="patient-info__item">Дата добавления 12:23 02.02.2020</div>
+        <div class="patient-info__item">Дата добавления {{getPatientObj().date}}</div>
       </div>
       <div class="menu-bar">
         <select class="menu-bar__select" v-model="filter.diet" disabled>
