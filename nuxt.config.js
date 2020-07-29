@@ -38,7 +38,7 @@ module.exports = {
   plugins: ["~plugins/vuemask.client.js", "~plugins/axios.js"],
   modules: ["@nuxtjs/axios", "@nuxtjs/auth"],
   axios: {
-    baseURL: "http://emcq.zapusq.ru"
+    baseURL: "http://order.emcmos.ru"
   },
   auth: {
     strategies: {

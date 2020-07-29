@@ -30,7 +30,7 @@ export const actions = {
   fetchPatients({ commit }, { self }) {
     return new Promise((resolve, reject) => {
       this.$axios
-        .get("http://emcq.zapusq.ru/rest/patients/")
+        .get("http://order.emcmos.ru/rest/patients/")
         .then(response => {
           commit("FETCH_PATIENTS", response.data);
           resolve(true);
@@ -43,7 +43,7 @@ export const actions = {
   fetchArchivedPatients({ commit }, { self }) {
     return new Promise((resolve, reject) => {
       this.$axios
-        .get("http://emcq.zapusq.ru/rest/patients-archive/")
+        .get("http://order.emcmos.ru/rest/patients-archive/")
         .then(response => {
           commit("FETCH_ARCHIVED_PATIENTS", response.data);
           resolve(true);
@@ -58,9 +58,9 @@ export const actions = {
     var url;
     var newPatient = false;
     if (payload.id) {
-      url = "http://emcq.zapusq.ru/rest/patient/" + payload.id + "/";
+      url = "http://order.emcmos.ru/rest/patient/" + payload.id + "/";
     } else {
-      url = "http://emcq.zapusq.ru/rest/patient/";
+      url = "http://order.emcmos.ru/rest/patient/";
       newPatient = true;
     }
     return new Promise((resolve, reject) => {

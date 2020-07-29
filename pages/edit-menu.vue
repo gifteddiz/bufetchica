@@ -165,12 +165,12 @@
             >{{daytime.name}}</option>
           </select>
         </div>
-        <!-- <div class="edit-menu__input-name">Тип блюда</div>
+        <div class="edit-menu__input-name">Тип блюда</div>
         <div class="edit-menu__select">
           <select v-model="parameters.type">
             <option v-for="dishType in dishTypeList" :key="dishType.id">{{dishType.name}}</option>
           </select>
-        </div>-->
+        </div>
         <div class="edit-menu__saving" v-if="isSaving">
           <img src="~assets/ajax.gif" />
           <span>Сохранение</span>
@@ -192,12 +192,12 @@ import { mapGetters } from "vuex";
 export default {
   middleware: "authorized",
   mixins: [fetchData],
-  data: function() {
+  data: function () {
     return {
       dropZoneMounted: false,
       allergen: [],
       isSaving: false,
-      errors: []
+      errors: [],
     };
   },
   computed: {
@@ -212,9 +212,9 @@ export default {
       } else {
         var diet = this.$route.query.diet;
         var currentDay = this.$route.query.day;
-        // var type = this.$route.query.type;
+        var type = this.$route.query.type;
         data = {
-          // type: "",
+          type: "",
           consist: "",
           energy: "",
           protein: "",
@@ -228,50 +228,50 @@ export default {
           name: "",
           image: "",
           description: "",
-          diet: []
+          diet: [],
         };
         data.diet.push({
           id: diet,
-          days: [currentDay]
+          days: [currentDay],
         });
-        // if (type) {
-        //   data.type = type;
-        // }
+        if (type) {
+          data.type = type;
+        }
       }
       return { ...data };
     },
     ...mapGetters({
       allergenOptions: "menu/allergenList",
-      dayTimeList: "menu/dayTimeList"
-      // dishTypeList: "menu/dishTypeList"
+      dayTimeList: "menu/dayTimeList",
+      dishTypeList: "menu/dishTypeList",
     }),
     dropzoneOptions() {
       return {
-        url: "http://emcq.zapusq.ru/rest/images/",
+        url: "http://order.emcmos.ru/rest/images/",
         thumbnailWidth: 600,
         maxFilesize: 2,
         maxFiles: 1,
         addRemoveLinks: true,
         headers: {
-          Authorization: this.$auth.getToken("local")
+          Authorization: this.$auth.getToken("local"),
         },
         dictRemoveFile: "Удалить файл",
-        dictCancelUpload: "Отменить загрузку"
+        dictCancelUpload: "Отменить загрузку",
       };
-    }
+    },
   },
   components: {
     vueDropzone: vue2Dropzone,
-    Multiselect
+    Multiselect,
   },
   methods: {
-    saveForm: function() {
+    saveForm: function () {
       this.isSaving = true;
       this.$store
         .dispatch("menu/editMenu", {
-          ...this.parameters
+          ...this.parameters,
         })
-        .then(response => {
+        .then((response) => {
           this.isSaving = false;
 
           if (response.data.error) {
@@ -282,7 +282,7 @@ export default {
           }
         });
     },
-    vdropzoneMaxFilesExceeded: function(file) {
+    vdropzoneMaxFilesExceeded: function (file) {
       this.$refs.myVueDropzone.removeAllFiles();
       this.$refs.myVueDropzone.addFile(file);
     },
@@ -290,8 +290,8 @@ export default {
       // Преобразует массив со списком id в массив со списком объектов
       var result = [];
       if (!this.allergen.length) {
-        value.forEach(element => {
-          var allergenObj = this.allergenOptions.find(allergen => {
+        value.forEach((element) => {
+          var allergenObj = this.allergenOptions.find((allergen) => {
             return parseInt(allergen.id) === parseInt(element);
           });
           result.push(allergenObj);
@@ -302,7 +302,7 @@ export default {
     updateAllergen() {
       // Преобразует массив со списком объектов в массив id
       var result = [];
-      this.allergen.forEach(allergenObj => {
+      this.allergen.forEach((allergenObj) => {
         result.push(allergenObj.id);
       });
       this.parameters.allergen = result;
@@ -324,7 +324,7 @@ export default {
     imageUploaded(file, response) {
       this.parameters.image = response.path;
     },
-    isNumber: function(evt) {
+    isNumber: function (evt) {
       evt = evt ? evt : window.event;
       var charCode = evt.which ? evt.which : evt.keyCode;
       if (
@@ -336,11 +336,11 @@ export default {
       } else {
         return true;
       }
-    }
+    },
   },
-  mounted: function() {
+  mounted: function () {
     this.dropZoneMounted = true;
-  }
+  },
 };
 </script>
 
