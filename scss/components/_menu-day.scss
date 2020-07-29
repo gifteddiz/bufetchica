@@ -37,3 +37,22 @@
     }
   }
 }
+.menu-day__save {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #fff;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: rem(0px) rem(4px) rem(30px) rgba(0, 0, 0, 0.15);
+}
+.menu-day__save-button {
+  width: 200px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

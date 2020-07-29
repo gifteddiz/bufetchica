@@ -5,7 +5,8 @@ import helpers from "~/assets/js/helpers";
 export const state = () => ({
   patients: [],
   archived: [],
-  address: []
+  address: [],
+  selectedDishes: [{}, {}, {}, {}, {}, {}, {}]
 });
 
 export const mutations = {
@@ -23,6 +24,24 @@ export const mutations = {
   },
   FETCH_ARCHIVED_PATIENTS(state, patients) {
     state.archived = patients.patients;
+  },
+  UPDATE_SELECTED_DISHES(state, payload) {
+    // Переключает наличие блюда в заявке
+    // payload.userID payload.recipeId payload.day payload.qty payload.selected
+    var dayIndex = payload.day - 1;
+
+    if (payload.selected) {
+      Vue.set(
+        state.selectedDishes[dayIndex],
+        payload.recipeId.toString(),
+        payload.qty
+      );
+    } else {
+      Vue.delete(state.selectedDishes[dayIndex], payload.recipeId.toString());
+    }
+  },
+  CLEAR_SELECTED_DISHES(state) {
+    state.selectedDishes = [{}, {}, {}, {}, {}, {}, {}];
   }
 };
 
@@ -90,26 +109,25 @@ export const actions = {
         });
     });
   },
-  toggleRecipeSelect({ state, dispatch }, payload) {
-    // Переключает наличие блюда в меню пользователя
-    // payload.userID payload.recipeId payload.day
-    const userIndex = state.patients.findIndex(
-      patient => patient.id === payload.userID
-    );
-    var newPatientObj = helpers.deepCopy(state.patients[userIndex]);
-    var dayIndex = payload.day - 1;
+  sendSelectedDishes({ state, commit }, payload) {
+    return new Promise((resolve, reject) => {
+      this.$axios
+        .post("http://order.emcmos.ru/catalog/createOrderBatch.php", {
+          patient: payload,
+          selectedDishes: state.selectedDishes
+        })
+        .then(function(response) {
+          if (!response.data.error) {
+            alert("Спасибо! Данные отправлены.");
+            commit("CLEAR_SELECTED_DISHES");
+          }
 
-    var recipeIndexPatient = newPatientObj.selected[dayIndex].findIndex(
-      el => el === payload.recipeId
-    );
-
-    if (recipeIndexPatient === -1) {
-      newPatientObj.selected[dayIndex].push(payload.recipeId);
-    } else {
-      newPatientObj.selected[dayIndex].splice(recipeIndexPatient, 1);
-    }
-
-    dispatch("editPatient", newPatientObj);
+          resolve(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    });
   }
 };
 
@@ -163,9 +181,9 @@ export const getters = {
     if (!state.patients.length && !state.archived.length) return patients;
 
     if (filter.archived) {
-      patients = state.archived;
+      patients = [...state.archived];
     } else {
-      patients = state.patients;
+      patients = [...state.patients];
     }
 
     if (filter.address) {
@@ -184,6 +202,20 @@ export const getters = {
         return name.toLowerCase().includes(filter.name.toLowerCase());
       });
     }
+
+    // Двигаем особого юзера на первое место
+    var i = patients.findIndex(o => o.id === "107");
+    var e = { ...patients[i] };
+    if (i !== 0) {
+      if (i > 0) {
+        patients.splice(i, 1);
+      }
+      patients.unshift(e);
+    }
+
     return patients;
+  },
+  getSelectedDishes(state) {
+    return state.selectedDishes;
   }
 };

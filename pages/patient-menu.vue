@@ -129,10 +129,19 @@
                 :selectedInDay="getPatientObj().selected[(filter.currentDay-1)]"
                 :patient="getPatientObj()"
                 :day="filter.currentDay"
+                :reset="resetMenuItemSelect"
               />
             </transition-group>
           </div>
         </div>
+      </div>
+      <div class="menu-day__save">
+        <a
+          href="#"
+          class="menu-day__save-button btn-1"
+          v-bind:class="{'--disabled': isSelectedEmpty}"
+          @click.prevent="sendSelected"
+        >Отправить</a>
       </div>
     </div>
   </div>
@@ -146,31 +155,40 @@ import fetchData from "../mixins/fetchData";
 export default {
   middleware: "authorized",
   mixins: [fetchData],
-  data: function() {
+  data: function () {
     return {
+      resetMenuItemSelect: 0,
       showPickDish: false,
       parameters: {},
       filter: {
         diet: 0,
         name: "",
-        currentDay: 1
-      }
+        currentDay: 1,
+      },
     };
   },
   components: {
-    MenuItemSelect: MenuItemSelect
+    MenuItemSelect: MenuItemSelect,
   },
   computed: {
     ...mapGetters({
       dietsList: "menu/dietsList",
-      dayTimeList: "menu/dayTimeList"
+      dayTimeList: "menu/dayTimeList",
+      getSelectedDishes: "patients/getSelectedDishes",
     }),
     menu() {
       return this.$store.getters["menu/getMenu"](this.filter);
-    }
+    },
+    isSelectedEmpty() {
+      var isEmpty = true;
+      this.getSelectedDishes.forEach((element) => {
+        if (Object.keys(element).length !== 0) isEmpty = false;
+      });
+      return isEmpty;
+    },
   },
   methods: {
-    setDay: function(day) {
+    setDay: function (day) {
       this.filter.currentDay = day;
     },
     dayTimeIdToName(id) {
@@ -178,7 +196,7 @@ export default {
       var result = "";
       var dayTimeObj = {};
 
-      dayTimeObj = this.dayTimeList.find(el => {
+      dayTimeObj = this.dayTimeList.find((el) => {
         return el.id === id;
       });
       if (typeof dayTimeObj !== "undefined") result = dayTimeObj.name;
@@ -187,9 +205,15 @@ export default {
     },
     getPatientObj() {
       return {
-        ...this.$store.getters["patients/getPatient"](this.$route.query.id)
+        ...this.$store.getters["patients/getPatient"](this.$route.query.id),
       };
-    }
+    },
+    sendSelected() {
+      this.resetMenuItemSelect++;
+      this.$store.dispatch("patients/sendSelectedDishes", {
+        patientId: this.$route.query.id,
+      });
+    },
   },
   created() {
     // Выбор первой диеты в селекте
@@ -198,11 +222,10 @@ export default {
         setTimeout(setDiet, 200);
       } else {
         this.filter.diet = this.getPatientObj().diet;
-        console.log(this.getPatientObj());
       }
     };
     setDiet();
-  }
+  },
 };
 </script>
 

@@ -10,7 +10,14 @@
         >{{ parameters.description.substring(0, 200) }}</div>
       </div>
       <div class="menu-item-select__controls">
-        <a href="#" class="menu-item-select__controls-chose" @click.prevent="toggleSelected">
+        <div class="menu-item-select__controls-qty">
+          <input type="text" v-model.number="qty" @input="updateSelectedArray" />
+        </div>
+        <a
+          href="#"
+          class="menu-item-select__controls-chose"
+          @click.prevent="toggleSelect();updateSelectedArray();"
+        >
           <span class="menu-item-select__controls-chose-option" v-if="selected">
             <svg
               width="46"
@@ -66,29 +73,34 @@
 
 <script>
 export default {
-  props: ["parameters", "selectedInDay", "patient", "day"],
-  computed: {
-    selected: function() {
-      var result = false;
-      if (
-        this.selectedInDay.findIndex(el => {
-          return el == this.parameters.id;
-        }) !== -1
-      ) {
-        result = true;
-      }
-      return result;
-    }
+  props: ["parameters", "selectedInDay", "patient", "day", "reset"],
+  data: function () {
+    return {
+      qty: 1,
+      selected: false,
+    };
   },
+  watch: {
+    reset: function () {
+      this.qty = 1;
+      this.selected = false;
+    },
+  },
+  computed: {},
   methods: {
-    toggleSelected: function() {
-      this.$store.dispatch("patients/toggleRecipeSelect", {
+    toggleSelect: function () {
+      this.selected = !this.selected;
+    },
+    updateSelectedArray: function () {
+      this.$store.commit("patients/UPDATE_SELECTED_DISHES", {
         userID: this.patient.id,
         recipeId: this.parameters.id,
-        day: this.day
+        day: this.day,
+        qty: this.qty,
+        selected: this.selected,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

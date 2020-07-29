@@ -156,6 +156,10 @@ select {
   &:hover {
     background-color: darken(#c0af93, 10%);
   }
+  &.--disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
 }
 
 .page-enter-active,
