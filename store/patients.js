@@ -49,7 +49,7 @@ export const actions = {
   fetchPatients({ commit }, { self }) {
     return new Promise((resolve, reject) => {
       this.$axios
-        .get("http://order.emcmos.ru/rest/patients/")
+        .get("https://order.emcmos.ru/rest/patients/")
         .then(response => {
           commit("FETCH_PATIENTS", response.data);
           resolve(true);
@@ -62,7 +62,7 @@ export const actions = {
   fetchArchivedPatients({ commit }, { self }) {
     return new Promise((resolve, reject) => {
       this.$axios
-        .get("http://order.emcmos.ru/rest/patients-archive/")
+        .get("https://order.emcmos.ru/rest/patients-archive/")
         .then(response => {
           commit("FETCH_ARCHIVED_PATIENTS", response.data);
           resolve(true);
@@ -77,9 +77,9 @@ export const actions = {
     var url;
     var newPatient = false;
     if (payload.id) {
-      url = "http://order.emcmos.ru/rest/patient/" + payload.id + "/";
+      url = "https://order.emcmos.ru/rest/patient/" + payload.id + "/";
     } else {
-      url = "http://order.emcmos.ru/rest/patient/";
+      url = "https://order.emcmos.ru/rest/patient/";
       newPatient = true;
     }
     return new Promise((resolve, reject) => {
@@ -112,7 +112,7 @@ export const actions = {
   sendSelectedDishes({ state, commit }, payload) {
     return new Promise((resolve, reject) => {
       this.$axios
-        .post("http://order.emcmos.ru/catalog/createOrderBatch.php", {
+        .post("https://order.emcmos.ru/catalog/createOrderBatch.php", {
           patient: payload,
           selectedDishes: state.selectedDishes
         })

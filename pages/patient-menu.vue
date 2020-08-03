@@ -129,7 +129,6 @@
                 :selectedInDay="getPatientObj().selected[(filter.currentDay-1)]"
                 :patient="getPatientObj()"
                 :day="filter.currentDay"
-                :reset="resetMenuItemSelect"
               />
             </transition-group>
           </div>
@@ -157,7 +156,6 @@ export default {
   mixins: [fetchData],
   data: function () {
     return {
-      resetMenuItemSelect: 0,
       showPickDish: false,
       parameters: {},
       filter: {
@@ -209,7 +207,6 @@ export default {
       };
     },
     sendSelected() {
-      this.resetMenuItemSelect++;
       this.$store.dispatch("patients/sendSelectedDishes", {
         patientId: this.$route.query.id,
       });

@@ -1,11 +1,11 @@
 export default ({ $axios, store }) => {
-  $axios.defaults.baseURL = "http://order.emcmos.ru";
+  $axios.defaults.baseURL = "https://order.emcmos.ru";
   if (process.server) {
     return;
   }
 
   $axios.interceptors.request.use(request => {
-    request.baseURL = "http://order.emcmos.ru";
+    request.baseURL = "https://order.emcmos.ru";
 
     // Get token from auth.js store
     const token = store.state.token;

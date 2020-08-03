@@ -162,13 +162,17 @@
               :value="daytime.id"
               v-for="daytime in dayTimeList"
               :key="daytime.id"
-            >{{daytime.name}}</option>
+            >{{ daytime.name }}</option>
           </select>
         </div>
         <div class="edit-menu__input-name">Тип блюда</div>
         <div class="edit-menu__select">
           <select v-model="parameters.type">
-            <option v-for="dishType in dishTypeList" :key="dishType.id">{{dishType.name}}</option>
+            <option v-for="dishType in dishTypeList" :key="dishType.id">
+              {{
+              dishType.name
+              }}
+            </option>
           </select>
         </div>
         <div class="edit-menu__saving" v-if="isSaving">
@@ -247,7 +251,7 @@ export default {
     }),
     dropzoneOptions() {
       return {
-        url: "http://order.emcmos.ru/rest/images/",
+        url: "https://order.emcmos.ru/rest/images/",
         thumbnailWidth: 600,
         maxFilesize: 2,
         maxFiles: 1,

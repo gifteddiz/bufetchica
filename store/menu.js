@@ -40,7 +40,7 @@ export const actions = {
   fetchMenu({ commit }, { self }) {
     return new Promise((resolve, reject) => {
       this.$axios
-        .get("http://order.emcmos.ru/rest/diets/")
+        .get("https://order.emcmos.ru/rest/diets/")
         .then(response => {
           commit("FETCH_MENU", response.data);
           resolve(true);
@@ -56,9 +56,9 @@ export const actions = {
     var url;
     var newDish = false;
     if (payload.id) {
-      url = "http://order.emcmos.ru/rest/dish/" + payload.id + "/";
+      url = "https://order.emcmos.ru/rest/dish/" + payload.id + "/";
     } else {
-      url = "http://order.emcmos.ru/rest/dish/";
+      url = "https://order.emcmos.ru/rest/dish/";
       newDish = true;
     }
 

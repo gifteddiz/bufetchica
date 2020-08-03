@@ -11,14 +11,14 @@
       </div>
       <div class="menu-item-select__controls">
         <div class="menu-item-select__controls-qty">
-          <input type="text" v-model.number="qty" @input="updateSelectedArray" />
+          <input type="text" v-model.number="dishValues.qty" @input="updateSelectedArray" />
         </div>
         <a
           href="#"
           class="menu-item-select__controls-chose"
           @click.prevent="toggleSelect();updateSelectedArray();"
         >
-          <span class="menu-item-select__controls-chose-option" v-if="selected">
+          <span class="menu-item-select__controls-chose-option" v-if="dishValues.selected">
             <svg
               width="46"
               height="45"
@@ -72,32 +72,46 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
-  props: ["parameters", "selectedInDay", "patient", "day", "reset"],
+  props: ["parameters", "selectedInDay", "patient", "day"],
   data: function () {
-    return {
-      qty: 1,
-      selected: false,
-    };
+    return {};
   },
-  watch: {
-    reset: function () {
-      this.qty = 1;
-      this.selected = false;
+  computed: {
+    ...mapGetters({
+      getSelectedDishes: "patients/getSelectedDishes",
+    }),
+    dishValues() {
+      var val = this.getSelectedDishes[parseInt(this.day) - 1][
+        parseInt(this.parameters.id)
+      ];
+      if (val) {
+        return {
+          selected: true,
+          qty: this.getSelectedDishes[parseInt(this.day) - 1][
+            this.parameters.id
+          ],
+        };
+      } else {
+        return {
+          selected: false,
+          qty: 1,
+        };
+      }
     },
   },
-  computed: {},
   methods: {
     toggleSelect: function () {
-      this.selected = !this.selected;
+      this.dishValues.selected = !this.dishValues.selected;
     },
     updateSelectedArray: function () {
       this.$store.commit("patients/UPDATE_SELECTED_DISHES", {
         userID: this.patient.id,
         recipeId: this.parameters.id,
         day: this.day,
-        qty: this.qty,
-        selected: this.selected,
+        qty: this.dishValues.qty,
+        selected: this.dishValues.selected,
       });
     },
   },
